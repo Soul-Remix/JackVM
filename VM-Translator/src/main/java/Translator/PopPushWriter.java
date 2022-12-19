@@ -124,4 +124,44 @@ class PopPushWriter {
         writer.println("@SP");
         writer.println("M=M+1");
     }
+
+    private void translatePushPointer(int index) {
+        writer.println("// push pointer " + index);
+
+        // Load (segment + index) content
+        writer.println("@3");
+        writer.println("D=A");
+        writer.println("@" + index);
+        writer.println("A=D+A");
+        writer.println("D=M");
+
+        // Push to stack
+        writer.println("@SP");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M+1");
+    }
+
+    private void translatePushTemp(int index) {
+        writer.println("// push temp " + index);
+
+        // Load (segment + index) content
+        writer.println("@5");
+        writer.println("D=A");
+        writer.println("@" + index);
+        writer.println("A=D+A");
+        writer.println("D=M");
+
+        // Push to stack
+        writer.println("@SP");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M+1");
+    }
 }
