@@ -6,11 +6,13 @@ import java.nio.charset.StandardCharsets;
 
 public class CodeWriter {
     private final PrintWriter writer;
-    private ArithmeticWriter arithmeticWriter;
+    private final ArithmeticWriter arithmeticWriter;
+    private final PopPushWriter popPushWriter;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".vm", StandardCharsets.UTF_8);
         arithmeticWriter = new ArithmeticWriter(output, writer);
+        popPushWriter = new PopPushWriter(output, writer);
     }
 
     public void writeArithmetic(String command) {
@@ -28,7 +30,18 @@ public class CodeWriter {
     }
 
     public void writePushPop(String command, String segment, int index) {
-
+        if (command.equals("push")) {
+            switch (segment) {
+                case "argument" -> popPushWriter.translatePushArgument(index);
+                case "local" -> popPushWriter.translatePushLocal(index);
+                case "this" -> popPushWriter.translatePushThis(index);
+                case "that" -> popPushWriter.translatePushThat(index);
+                case "static" -> popPushWriter.translatePushStatic(index);
+                case "constant" -> popPushWriter.translatePushConstant(index);
+                case "pointer" -> popPushWriter.translatePushPointer(index);
+                case "temp" -> popPushWriter.translatePushTemp(index);
+            }
+        }
     }
 
     public void close() {

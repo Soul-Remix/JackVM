@@ -125,7 +125,7 @@ class PopPushWriter {
         writer.println("M=M+1");
     }
 
-    private void translatePushPointer(int index) {
+    public void translatePushPointer(int index) {
         writer.println("// push pointer " + index);
 
         // Load (segment + index) content
@@ -145,7 +145,7 @@ class PopPushWriter {
         writer.println("M=M+1");
     }
 
-    private void translatePushTemp(int index) {
+    public void translatePushTemp(int index) {
         writer.println("// push temp " + index);
 
         // Load (segment + index) content
