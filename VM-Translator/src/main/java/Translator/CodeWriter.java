@@ -28,6 +28,8 @@ public class CodeWriter {
             case "gt" -> translateCommandGT();
             case "lt" -> translateCommandLT();
             case "and" -> translateCommandAnd();
+            case "or" -> translateCommandOr();
+            case "not" -> translateCommandNot();
         }
     }
 
@@ -277,5 +279,42 @@ public class CodeWriter {
         writer.println("@SP");
         writer.println("A=M-1");
         writer.println("M=D");
+    }
+
+    private void translateCommandOr() {
+        writer.println("// or");
+
+        // Load second operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+
+        // Load first operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+
+        // Or
+        writer.println("@R13");
+        writer.println("D=D|M");
+
+        // Store the result
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("M=D");
+    }
+
+    private void translateCommandNot() {
+        writer.println("// not");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("M=!M");
     }
 }

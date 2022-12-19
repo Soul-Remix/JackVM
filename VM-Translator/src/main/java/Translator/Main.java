@@ -6,11 +6,15 @@ public class Main {
     public static void main(String[] args) {
         try {
             Parser parser = new Parser(args[0]);
+            CodeWriter writer = new CodeWriter(args[0]);
             while (parser.hasMoreCommands()) {
                 parser.advance();
-                System.out.println(parser.commandType());
+                if(parser.commandType() == "C_ARITHMETIC") {
+                    writer.writeArithmetic(parser.arg1());
+                }
             }
-        } catch (FileNotFoundException e) {
+            writer.close();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
