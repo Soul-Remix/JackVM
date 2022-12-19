@@ -35,9 +35,9 @@ public class Parser {
 
     public String advance() {
         currentCommand = reader.nextLine().trim();
-        arg1=null;
-        arg2=null;
-        if (currentCommand.isBlank() && this.hasMoreCommands()) {
+        arg1 = null;
+        arg2 = null;
+        if ((currentCommand.isBlank() || currentCommand.startsWith("//")) && this.hasMoreCommands()) {
             currentCommand = this.advance();
         }
         return currentCommand;
@@ -49,14 +49,14 @@ public class Parser {
             arg1 = arr[0];
             return "C_ARITHMETIC";
         }
-        if(arr[0].equals("push")) {
-            arg1= arr[1];
-            arg2=arr[2];
+        if (arr[0].equals("push")) {
+            arg1 = arr[1];
+            arg2 = arr[2];
             return "C_PUSH";
         }
-        if(arr[0].equals("pop")) {
-            arg1= arr[1];
-            arg2=arr[2];
+        if (arr[0].equals("pop")) {
+            arg1 = arr[1];
+            arg2 = arr[2];
             return "C_POP";
         }
         return "";
