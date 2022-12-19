@@ -9,29 +9,25 @@ public class CodeWriter {
     private final String outputName;
     private int eqCount;
     private int gtCount;
+    private int ltCount;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".vm", StandardCharsets.UTF_8);
         outputName = output;
         eqCount = 0;
         gtCount = 0;
+        ltCount = 0;
     }
 
     public void writeArithmetic(String command) {
-        if(command.equals("add")) {
-            translateCommandAdd();
-        }
-        if(command.equals("sub")) {
-            translateCommandSub();
-        }
-        if(command.equals("neg")) {
-            translateCommandNeg();
-        }
-        if(command.equals("eq")) {
-            translateCommandEQ();
-        }
-        if(command.equals("gt")) {
-            translateCommandGT();
+        switch (command) {
+            case "add" -> translateCommandAdd();
+            case "sub" -> translateCommandSub();
+            case "neg" -> translateCommandNeg();
+            case "eq" -> translateCommandEQ();
+            case "gt" -> translateCommandGT();
+            case "lt" -> translateCommandLT();
+            case "and" -> translateCommandAnd();
         }
     }
 
@@ -203,5 +199,83 @@ public class CodeWriter {
 
         // End
         writer.println("(" + labelGTEnd + ")");
+    }
+
+    private void translateCommandLT() {
+        String labelLTTrue = outputName + ".LT.true." + ltCount;
+        String labelLTEnd = outputName + ".LT.end." + ltCount;
+        ltCount++;
+
+        writer.println("// lt");
+
+        // Load second operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+
+        // Load first operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+
+        // Sub
+        writer.println("@R13");
+        writer.println("D=D-M");
+
+        // Check to jump
+        writer.println("@" + labelLTTrue);
+        writer.println("D;JLT");
+
+        // No jump
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("M=0");
+        writer.println("@" + labelLTEnd);
+        writer.println("0;JMP");
+
+        // Jump to here if true/lesser than
+        writer.println("(" + labelLTTrue + ")");
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("M=-1");
+
+        // End
+        writer.println("(" + labelLTEnd + ")");
+    }
+
+    private void translateCommandAnd() {
+        writer.println("// and");
+
+        // Load second operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+
+        // Load first operand
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+
+        // And
+        writer.println("@R13");
+        writer.println("D=D&M");
+
+
+        // Store the result
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("M=D");
     }
 }
