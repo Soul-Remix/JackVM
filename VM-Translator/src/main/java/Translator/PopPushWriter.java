@@ -268,6 +268,23 @@ class PopPushWriter {
         writer.println("M=M-1");
     }
 
+    public void translatePopConstant(int index) {
+        writer.println("// push constant " + index);
+
+        // Load (segment + index) content
+        writer.println("@" + index);
+        writer.println("D=A");
+
+        // Push to stack
+        writer.println("@SP");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M+1");
+    }
+
     public void translatePopPointer(int index) {
         writer.println("// pop pointer " + index);
 
@@ -286,6 +303,27 @@ class PopPushWriter {
         writer.println("M=D");
 
         // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
+
+    private void translatePopTemp(int index) {
+        writer.println("// pop temp " + index);
+
+        writer.println("@5");
+        writer.println("D=A");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
         writer.println("@SP");
         writer.println("M=M-1");
     }
