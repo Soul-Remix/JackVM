@@ -164,4 +164,70 @@ class PopPushWriter {
         writer.println("@SP");
         writer.println("M=M+1");
     }
+
+    public void translatePopArgument(int index) {
+        writer.println("// pop argument " + index);
+
+        writer.println("@ARG");
+        writer.println("D=M");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
+
+    public void translatePopLocal(int index) {
+        writer.println("// pop local " + index);
+
+        writer.println("@LCL");
+        writer.println("D=M");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
+
+    public void translatePopThis(int index) {
+        writer.println("// pop this " + index);
+
+        writer.println("@THIS");
+        writer.println("D=M");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
 }
