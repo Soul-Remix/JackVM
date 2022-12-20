@@ -230,4 +230,63 @@ class PopPushWriter {
         writer.println("@SP");
         writer.println("M=M-1");
     }
+
+    public void translatePopThat(int index) {
+        writer.println("// pop that " + index);
+
+        writer.println("@THAT");
+        writer.println("D=M");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
+
+    public void translatePopStatic(int index) {
+        writer.println("// pop static " + index);
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+
+        writer.println("@" + name + ".static." + index);
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
+
+    public void translatePopPointer(int index) {
+        writer.println("// pop pointer " + index);
+
+        writer.println("@3");
+        writer.println("D=A");
+        writer.println("@" + index);
+        writer.println("D=D+A");
+        writer.println("@R13");
+        writer.println("M=D");
+
+        writer.println("@SP");
+        writer.println("A=M-1");
+        writer.println("D=M");
+        writer.println("@R13");
+        writer.println("A=M");
+        writer.println("M=D");
+
+        // Update stack pointer
+        writer.println("@SP");
+        writer.println("M=M-1");
+    }
 }
