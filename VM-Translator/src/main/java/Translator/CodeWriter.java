@@ -10,7 +10,7 @@ public class CodeWriter {
     private final PopPushWriter popPushWriter;
 
     public CodeWriter(String output) throws IOException {
-        writer = new PrintWriter(output + ".vm", StandardCharsets.UTF_8);
+        writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
         arithmeticWriter = new ArithmeticWriter(output, writer);
         popPushWriter = new PopPushWriter(output, writer);
     }
