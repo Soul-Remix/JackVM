@@ -41,6 +41,17 @@ public class CodeWriter {
                 case "pointer" -> popPushWriter.translatePushPointer(index);
                 case "temp" -> popPushWriter.translatePushTemp(index);
             }
+        } else if (command.equals("pop")) {
+            switch (segment) {
+                case "argument" -> popPushWriter.translatePopArgument(index);
+                case "local" -> popPushWriter.translatePopLocal(index);
+                case "this" -> popPushWriter.translatePopThis(index);
+                case "that" -> popPushWriter.translatePopThat(index);
+                case "static" -> popPushWriter.translatePopStatic(index);
+                case "constant" -> popPushWriter.translatePopConstant(index);
+                case "pointer" -> popPushWriter.translatePopPointer(index);
+                case "temp" -> popPushWriter.translatePopTemp(index);
+            }
         }
     }
 

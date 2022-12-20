@@ -307,7 +307,7 @@ class PopPushWriter {
         writer.println("M=M-1");
     }
 
-    private void translatePopTemp(int index) {
+    public void translatePopTemp(int index) {
         writer.println("// pop temp " + index);
 
         writer.println("@5");
