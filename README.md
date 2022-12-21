@@ -32,3 +32,6 @@ The code is first translated to an intermediate program (like Java's *bytecode* 
 The project consists of two parts
 - [VM Translator](https://github.com/Soul-Remix/JackVM/tree/main/VMTranslator)
 - Compiler (Not completed yet)
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
