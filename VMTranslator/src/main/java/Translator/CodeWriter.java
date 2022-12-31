@@ -6,11 +6,14 @@ import java.nio.charset.StandardCharsets;
 
 public class CodeWriter {
     private final PrintWriter writer;
-    private final ArithmeticWriter arithmeticWriter;
-    private final PopPushWriter popPushWriter;
+    private ArithmeticWriter arithmeticWriter;
+    private PopPushWriter popPushWriter;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
+    }
+
+    public void setFileName(String output){
         arithmeticWriter = new ArithmeticWriter(output, writer);
         popPushWriter = new PopPushWriter(output, writer);
     }

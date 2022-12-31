@@ -46,6 +46,7 @@ public class Main {
 
         for (File f:files) {
             Parser parser = new Parser(f);
+            writer.setFileName(f.getName());
 
             while (parser.hasMoreCommands()) {
                 parser.advance();
@@ -58,7 +59,6 @@ public class Main {
                 }
             }
         }
-
 
         writer.close();
     }
