@@ -63,7 +63,7 @@ public class Main {
                 } else if (parser.commandType().equals("C_IF")) {
                     writer.writeIf(parser.arg1());
                 } else if (parser.commandType().equals("C_RETURN")) {
-
+                    writer.writeReturn();
                 } else if (parser.commandType().equals("C_FUNCTION")) {
                     writer.writeFunction(parser.arg1(), parser.arg2());
                 } else if (parser.commandType().equals("C_CALL")) {

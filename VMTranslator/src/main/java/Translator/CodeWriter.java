@@ -9,6 +9,7 @@ public class CodeWriter {
     private ArithmeticWriter arithmeticWriter;
     private PopPushWriter popPushWriter;
     private CallWriter callWriter;
+    private ReturnWriter returnWriter;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
@@ -18,6 +19,7 @@ public class CodeWriter {
         arithmeticWriter = new ArithmeticWriter(output, writer);
         popPushWriter = new PopPushWriter(output, writer);
         callWriter = new CallWriter(output,writer);
+        returnWriter = new ReturnWriter(writer);
     }
 
     public void writeArithmetic(String command) {
@@ -100,6 +102,10 @@ public class CodeWriter {
 
     public void writeCall(String function, int numArgs) {
         callWriter.writeCall(function,numArgs);
+    }
+
+    public void writeReturn() {
+        returnWriter.writeReturn();
     }
 
     public void close() {
