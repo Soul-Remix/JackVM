@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 
 class ArithmeticWriter {
     private final PrintWriter writer;
-    private final String outputName;
+    private String outputName;
     private int eqCount;
     private int gtCount;
     private int ltCount;
@@ -15,6 +15,10 @@ class ArithmeticWriter {
         eqCount = 0;
         gtCount = 0;
         ltCount = 0;
+    }
+
+    public void setFileName(String output) {
+        outputName = output;
     }
 
     public void translateCommandAdd() {

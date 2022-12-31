@@ -6,21 +6,23 @@ import java.nio.charset.StandardCharsets;
 
 public class CodeWriter {
     private final PrintWriter writer;
-    private ArithmeticWriter arithmeticWriter;
-    private PopPushWriter popPushWriter;
-    private CallWriter callWriter;
-    private ReturnWriter returnWriter;
+    private final ArithmeticWriter arithmeticWriter;
+    private final PopPushWriter popPushWriter;
+    private final CallWriter callWriter;
+    private final ReturnWriter returnWriter;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
-        this.setFileName(output);
+        arithmeticWriter = new ArithmeticWriter(output, writer);
+        popPushWriter = new PopPushWriter(output, writer);
+        callWriter = new CallWriter(output, writer);
+        returnWriter = new ReturnWriter(writer);
     }
 
     public void setFileName(String output) {
-        arithmeticWriter = new ArithmeticWriter(output, writer);
-        popPushWriter = new PopPushWriter(output, writer);
-        callWriter = new CallWriter(output,writer);
-        returnWriter = new ReturnWriter(writer);
+        arithmeticWriter.setFileName(output);
+        popPushWriter.setFileName(output);
+        callWriter.setFileName(output);
     }
 
     public void writeArithmetic(String command) {
@@ -88,7 +90,7 @@ public class CodeWriter {
         writer.println("D;JNE");
     }
 
-    public void writeFunction(String function,int numArgs) {
+    public void writeFunction(String function, int numArgs) {
         writer.println("// function " + function + " " + numArgs);
 
         writer.println("(" + function + ")");
@@ -102,7 +104,7 @@ public class CodeWriter {
     }
 
     public void writeCall(String function, int numArgs) {
-        callWriter.writeCall(function,numArgs);
+        callWriter.writeCall(function, numArgs);
     }
 
     public void writeReturn() {
@@ -115,7 +117,7 @@ public class CodeWriter {
         writer.println("@SP");
         writer.println("M=D");
         writer.println("@256");
-        this.writeCall("Sys.init",0);
+        this.writeCall("Sys.init", 0);
     }
 
     public void close() {

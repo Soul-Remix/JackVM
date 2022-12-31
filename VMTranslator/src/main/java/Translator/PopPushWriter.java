@@ -4,11 +4,15 @@ import java.io.PrintWriter;
 
 class PopPushWriter {
     private final PrintWriter writer;
-    private final String name;
+    private String name;
 
     public PopPushWriter(String name, PrintWriter writer) {
         this.writer = writer;
         this.name = name;
+    }
+
+    public void setFileName(String output) {
+        name = output;
     }
 
     public void translatePushArgument(int index) {

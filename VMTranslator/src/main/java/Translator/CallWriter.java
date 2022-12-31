@@ -4,13 +4,17 @@ import java.io.PrintWriter;
 
 
 public class CallWriter {
-    private final String output;
+    private String output;
     private final PrintWriter writer;
     private int callCount;
 
     public CallWriter(String output,PrintWriter writer) {
         this.output = output;
         this.writer = writer;
+    }
+
+    public void setFileName(String output) {
+        this.output = output;
     }
 
     public void writeCall(String function,int numArgs) {
