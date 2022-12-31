@@ -57,8 +57,22 @@ public class Main {
                 } else if (parser.commandType().equals("C_POP")) {
                     writer.writePushPop("pop", parser.arg1(), parser.arg2());
                 }
+                else if(parser.commandType().equals("C_LABEL")) {
+
+                } else if (parser.commandType().equals("C_GOTO")) {
+
+                } else if (parser.commandType().equals("C_IF")) {
+
+                } else if (parser.commandType().equals("C_RETURN")) {
+
+                } else if (parser.commandType().equals("C_FUNCTION")) {
+
+                } else if (parser.commandType().equals("C_CALL")) {
+
+                }
             }
         }
+
 
         writer.close();
     }

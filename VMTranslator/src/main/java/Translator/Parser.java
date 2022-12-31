@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Parser {
-    private Scanner reader;
+    private final Scanner reader;
     private String currentCommand;
     private String arg1;
     private String arg2;
@@ -57,6 +57,32 @@ public class Parser {
             arg1 = arr[1];
             arg2 = arr[2];
             return "C_POP";
+        }
+        if (arr[0].equals("label")) {
+            arg1 = arr[1];
+            return "C_LABEL";
+        }
+        if (arr[0].equals("goto")) {
+            arg1 = arr[1];
+            return "C_GOTO";
+        }
+        if (arr[0].equals("if-goto")) {
+            arg1 = arr[1];
+            return "C_IF";
+        }
+        if (arr[0].equals("return")) {
+            arg1 = arr[0];
+            return "C_RETURN";
+        }
+        if (arr[0].equals("function")) {
+            arg1 = arr[1];
+            arg2 = arr[2];
+            return "C_FUNCTION";
+        }
+        if (arr[0].equals("call")) {
+            arg1 = arr[1];
+            arg2 = arr[2];
+            return "C_CALL";
         }
         return "";
     }
