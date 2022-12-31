@@ -8,6 +8,7 @@ public class CodeWriter {
     private final PrintWriter writer;
     private ArithmeticWriter arithmeticWriter;
     private PopPushWriter popPushWriter;
+    private CallWriter callWriter;
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
@@ -16,6 +17,7 @@ public class CodeWriter {
     public void setFileName(String output) {
         arithmeticWriter = new ArithmeticWriter(output, writer);
         popPushWriter = new PopPushWriter(output, writer);
+        callWriter = new CallWriter(output,writer);
     }
 
     public void writeArithmetic(String command) {
@@ -83,17 +85,21 @@ public class CodeWriter {
         writer.println("D;JNE");
     }
 
-    public void writeFunction(String function,int var) {
-        writer.println("// function " + function + " " + var);
+    public void writeFunction(String function,int numArgs) {
+        writer.println("// function " + function + " " + numArgs);
 
         writer.println("(" + function + ")");
-        for (int i = 0; i < var; i++) {
+        for (int i = 0; i < numArgs; i++) {
             writer.println("@SP");
             writer.println("A=M");
             writer.println("M=0");
             writer.println("@SP");
             writer.println("M=M+1");
         }
+    }
+
+    public void writeCall(String function, int numArgs) {
+        callWriter.writeCall(function,numArgs);
     }
 
     public void close() {

@@ -67,7 +67,7 @@ public class Main {
                 } else if (parser.commandType().equals("C_FUNCTION")) {
                     writer.writeFunction(parser.arg1(), parser.arg2());
                 } else if (parser.commandType().equals("C_CALL")) {
-
+                    writer.writeCall(parser.arg1(), parser.arg2());
                 }
             }
         }
