@@ -1,6 +1,8 @@
 package Translator;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -8,23 +10,56 @@ public class Main {
             throw new IllegalArgumentException();
         }
         String input = args[0];
-        if (!input.endsWith(".vm")) {
+        File file = new File(input);
+
+        if(!file.exists()) {
             throw new IllegalArgumentException();
         }
-        String output = input.substring(0, input.length() - 3);
 
-        Parser parser = new Parser(input);
-        CodeWriter writer = new CodeWriter(output);
-        while (parser.hasMoreCommands()) {
-            parser.advance();
-            if (parser.commandType().equals("C_ARITHMETIC")) {
-                writer.writeArithmetic(parser.arg1());
-            } else if (parser.commandType().equals("C_PUSH")) {
-                writer.writePushPop("push", parser.arg1(), parser.arg2());
-            } else if (parser.commandType().equals("C_POP")) {
-                writer.writePushPop("pop", parser.arg1(), parser.arg2());
+        ArrayList<File> files = new ArrayList<>();
+        String fileOutPath;
+
+        if(file.isDirectory()){
+            for (File f :file.listFiles()) {
+                if(f.getName().endsWith(".vm")) {
+                    files.add(f);
+                }
+            }
+
+            if(files.size() == 0) {
+                throw new IllegalArgumentException("No .VM files found in directory");
+            }
+
+            fileOutPath = file.getAbsolutePath() + "/" +  file.getName();
+        }else {
+            String path = file.getAbsolutePath();
+
+            if(!path.endsWith(".vm")) {
+                throw new IllegalArgumentException(".vm file is required!");
+            }
+
+            files.add(file);
+            fileOutPath = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf("."));
+        }
+
+        CodeWriter writer = new CodeWriter(fileOutPath);
+
+        for (File f:files) {
+            Parser parser = new Parser(f);
+
+            while (parser.hasMoreCommands()) {
+                parser.advance();
+                if (parser.commandType().equals("C_ARITHMETIC")) {
+                    writer.writeArithmetic(parser.arg1());
+                } else if (parser.commandType().equals("C_PUSH")) {
+                    writer.writePushPop("push", parser.arg1(), parser.arg2());
+                } else if (parser.commandType().equals("C_POP")) {
+                    writer.writePushPop("pop", parser.arg1(), parser.arg2());
+                }
             }
         }
+
+
         writer.close();
     }
 }

@@ -13,9 +13,8 @@ public class Parser {
 
     private final HashMap<String, Boolean> arithmeticCommands;
 
-    public Parser(String input) throws FileNotFoundException {
-        File file = new File(input);
-        reader = new Scanner(file);
+    public Parser(File input) throws FileNotFoundException {
+        reader = new Scanner(input);
 
         arithmeticCommands = new HashMap<>();
         arithmeticCommands.put("add", true);
