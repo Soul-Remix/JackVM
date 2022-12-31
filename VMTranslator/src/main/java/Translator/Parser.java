@@ -92,6 +92,6 @@ public class Parser {
     }
 
     public Integer arg2() {
-        return Integer.parseInt(arg2);
+        return Integer.parseInt(arg2.trim());
     }
 }

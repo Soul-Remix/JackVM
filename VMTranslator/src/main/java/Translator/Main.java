@@ -44,6 +44,8 @@ public class Main {
 
         CodeWriter writer = new CodeWriter(fileOutPath);
 
+        //writer.writeInit();
+
         for (File f : files) {
             Parser parser = new Parser(f);
             writer.setFileName(f.getName());

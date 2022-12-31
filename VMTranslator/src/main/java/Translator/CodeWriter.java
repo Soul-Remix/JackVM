@@ -13,6 +13,7 @@ public class CodeWriter {
 
     public CodeWriter(String output) throws IOException {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
+        this.setFileName(output);
     }
 
     public void setFileName(String output) {
@@ -106,6 +107,15 @@ public class CodeWriter {
 
     public void writeReturn() {
         returnWriter.writeReturn();
+    }
+
+    public void writeInit() {
+        writer.println("@256");
+        writer.println("D=A");
+        writer.println("@SP");
+        writer.println("M=D");
+        writer.println("@256");
+        this.writeCall("Sys.init",0);
     }
 
     public void close() {
