@@ -58,9 +58,9 @@ public class Main {
                     writer.writePushPop("pop", parser.arg1(), parser.arg2());
                 }
                 else if(parser.commandType().equals("C_LABEL")) {
-
+                    writer.writeLabel(parser.arg1());
                 } else if (parser.commandType().equals("C_GOTO")) {
-
+                    writer.writeGoTo(parser.arg1());
                 } else if (parser.commandType().equals("C_IF")) {
 
                 } else if (parser.commandType().equals("C_RETURN")) {

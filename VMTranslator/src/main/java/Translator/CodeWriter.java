@@ -58,6 +58,19 @@ public class CodeWriter {
         }
     }
 
+    public void writeLabel(String command) {
+        writer.println("// label" + command);
+
+        writer.println("(" + command + ")");
+    }
+
+    public void writeGoTo(String command) {
+        writer.println("// goto " + command);
+
+        writer.println("@" + command);
+        writer.println("0;JMP");
+    }
+
     public void close() {
         writer.close();
     }
