@@ -13,7 +13,7 @@ public class CodeWriter {
         writer = new PrintWriter(output + ".asm", StandardCharsets.UTF_8);
     }
 
-    public void setFileName(String output){
+    public void setFileName(String output) {
         arithmeticWriter = new ArithmeticWriter(output, writer);
         popPushWriter = new PopPushWriter(output, writer);
     }
@@ -69,6 +69,31 @@ public class CodeWriter {
 
         writer.println("@" + command);
         writer.println("0;JMP");
+    }
+
+    public void writeIf(String command) {
+        writer.println("// if-goto " + command);
+
+        // pop the top most value
+        writer.println("@SP");
+        writer.println("AM=M-1");
+        // check condition and jump
+        writer.println("D=M");
+        writer.println("@" + command);
+        writer.println("D;JNE");
+    }
+
+    public void writeFunction(String function,int var) {
+        writer.println("// function " + function + " " + var);
+
+        writer.println("(" + function + ")");
+        for (int i = 0; i < var; i++) {
+            writer.println("@SP");
+            writer.println("A=M");
+            writer.println("M=0");
+            writer.println("@SP");
+            writer.println("M=M+1");
+        }
     }
 
     public void close() {
